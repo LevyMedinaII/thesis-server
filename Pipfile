@@ -1,8 +1,8 @@
 [[source]]
 
-url = "https://pypi.python.org/simple"
-verify_ssl = true
-name = "pypi"
+"url" = "https://pypi.python.org/simple"
+"verify_ssl" = true
+"name" = "pypi"
 
 
 [packages]
@@ -12,6 +12,7 @@ requests = "*"
 sqlalchemy = "*"
 "psycopg2" = "*"
 pandas = "*"
+gunicorn = "*"
 
 
 [dev-packages]
