@@ -4,21 +4,25 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm import sessionmaker
 
 from .models import Base, Sample
+import os
 ### DB Initialization ###
 
-db_info = {
-    'engine': 'postgresql',
-    'username': 'shakedev',
-    'password': 'password',
-    'host': 'localhost',
-    'port': '5433',
-    'db_name': 'shake_db'
-}
+if os.environ['DATABASE_URL']:
+    db_info = {
+        'engine': 'postgresql',
+        'username': 'shakedev',
+        'password': 'password',
+        'host': 'localhost',
+        'port': '5433',
+        'db_name': 'shake_db'
+    }
 
-engine = create_engine(
-    '{engine}://{username}:{password}@{host}:{port}/{db_name}'.format(**db_info),
-    echo=True
-)
+    engine = create_engine(
+        '{engine}://{username}:{password}@{host}:{port}/{db_name}'.format(**db_info),
+        echo=True
+    )
+else:
+    engine = create_engine(os.environ['DATABASE_URL'], echo=True)
 
 # Create Table
 Base.metadata.create_all(engine)
