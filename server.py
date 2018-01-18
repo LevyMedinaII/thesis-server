@@ -24,14 +24,17 @@ class TestResource(object):
         # self.session.commit()
         print('called: /test POST')
         # raw/json
-        requestBody  = json.load(req.stream)
-        latitude = requestBody.get('latitude')
-        longitude = requestBody.get('longitude')
+        if req.stream:
+            requestBody  = json.load(req.stream)
+            latitude = requestBody.get('latitude')
+            longitude = requestBody.get('longitude')
 
-        res.body = json.dumps({
-            'latitude': latitude,
-            'longitude': longitude
-        })
+            res.body = json.dumps({
+                'latitude': latitude,
+                'longitude': longitude
+            })
+        else:
+            res.status = falcon.HTTP_400
 
 
 # falcon.API instances are callable WSGI apps
