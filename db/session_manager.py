@@ -7,7 +7,7 @@ from .models import Base, Sample
 import os
 ### DB Initialization ###
 
-if os.environ['DATABASE_URL']:
+if not os.environ['DATABASE_URL']:
     db_info = {
         'engine': 'postgresql',
         'username': 'shakedev',
