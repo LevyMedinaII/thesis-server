@@ -1,7 +1,8 @@
 import json
 import falcon
-from db import Sample
 import pandas as pd
+
+from db import Sample
 
 class DataResource(object):
     def on_get(self, req, res):
@@ -20,7 +21,7 @@ class DataResource(object):
         
         df = pd.read_csv('NGA_D005.csv')
         json_data = df.to_json(orient='records')
-        
+
         # TODO: Analyze data with AI
 
         responseData = {

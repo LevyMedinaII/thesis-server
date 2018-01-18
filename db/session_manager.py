@@ -20,23 +20,6 @@ engine = create_engine(
     echo=True
 )
 
-### Table Definitions ###
-# class Sample(Base):
-#     __tablename__ = 'sample'
-#     id = Column(Integer, primary_key = True)
-
-#     name = Column(String)
-#     fullname = Column(String)
-#     password = Column(String)
-
-#     def __repr__(self):
-#         return "<Sample(id='{}', name='{}', fullname='{}', password='{}')>".format(
-#             self.id,
-#             self.name,
-#             self.fullname,
-#             self.password
-#         )
-
 # Create Table
 Base.metadata.create_all(engine)
 
