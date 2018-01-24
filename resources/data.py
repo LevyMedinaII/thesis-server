@@ -18,7 +18,6 @@ class DataResource(object):
         # raw/json
         # requestBody  = json.load(req.stream)
         # earthquakeData = requestBody.get('earthquake_data')
-        
         df = pd.read_csv('NGA_D005.csv')
         json_data = df.to_json(orient='records')
 
