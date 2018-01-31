@@ -42,6 +42,8 @@ app = falcon.API(middleware=[
     SQLAlchemySessionManager(Session),
 ])
 
+from resources import model
+
 # set x-www-form-urlencoded to be available with req.params
 app.req_options.auto_parse_form_urlencoded = True
 

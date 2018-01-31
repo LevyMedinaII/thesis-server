@@ -5,9 +5,11 @@ from sqlalchemy.orm import sessionmaker
 
 from .models import Base, Sample
 import os
-### DB Initialization ###
 
-if not os.environ['DATABASE_URL']:
+### DB Initialization ###
+db_url = os.environ.get('DATABASE_URL')
+
+if not db_url:
     db_info = {
         'engine': 'postgresql',
         'username': 'shakedev',
@@ -16,7 +18,6 @@ if not os.environ['DATABASE_URL']:
         'port': '5433',
         'db_name': 'shake_db'
     }
-
     engine = create_engine(
         '{engine}://{username}:{password}@{host}:{port}/{db_name}'.format(**db_info),
         echo=True
