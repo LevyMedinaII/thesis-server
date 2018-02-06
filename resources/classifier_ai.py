@@ -76,7 +76,8 @@ print('Test accuracy:', score[1])
 class EarthquakePredictionResource(object):
     def on_post(self, req, res):
         if req.stream:
-            #Do something
+            res.body = json.dumps({
+                "Hello": "World"
+            })
         else:
             res.status = falcon.HTTP_400
-        

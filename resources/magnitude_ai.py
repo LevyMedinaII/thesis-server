@@ -9,6 +9,7 @@ average_error = 0
 mestimates = []
 errors = []
 ave_error = 0
+
 for index, xrow in X.iterrows():
     mest = (B1 * xrow['PGA (g)']) + (B2 * xrow['PGD (cm)']) + B0
     mestimates.append(mest)
