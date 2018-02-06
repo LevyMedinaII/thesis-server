@@ -1,5 +1,25 @@
+%matplotlib inline
 import numpy as np
 import pandas as pd
+#import statsmodels.api as sm
+#from sklearn.preprocessing import StandardScaler
+
+df = pd.read_excel('C:/Levy Courses and Lectures/Non-Levy Files/NGA_West2_Flatfile_RotD50_d200_public_version.xlsx')
+
+scale = StandardScaler()
+
+X = df[['PGA (g)', 'PGD (cm)']]
+y = df['Earthquake Magnitude']
+
+X[['PGA (g)', 'PGD (cm)']] = scale.fit_transform(X[['PGA (g)', 'PGD (cm)']].as_matrix())
+X = sm.add_constant(X)
+                    
+print (X)
+est = sm.OLS(y, X).fit()
+
+#est.summary()
+
+#Code above this line are the added ones.
 
 B0 = 4.3977
 B1 = -5.3746
