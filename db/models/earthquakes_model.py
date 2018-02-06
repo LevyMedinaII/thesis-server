@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String
 from .declarative_base import Base
 
-class TriggeredEarthquakes(Base):
+class Earthquakes(Base):
     __tablename__ = 'triggered_earthquakes'
     id = Column(Integer, primary_key = True)
 

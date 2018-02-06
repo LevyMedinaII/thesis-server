@@ -2,7 +2,7 @@ import json
 import falcon
 import requests
 
-from resources import DataResource, AccelerometerResource
+from resources import DataResource
 from db import SQLAlchemySessionManager, Session, Sample
 
 class TestResource(object):
@@ -50,9 +50,7 @@ app.req_options.auto_parse_form_urlencoded = True
 # Resources are represented by long-lived class instances
 test = TestResource()
 data = DataResource()
-accelerometer = AccelerometerResource()
 
 # things will handle all requests to the '/things' URL path
 app.add_route('/test', test)
-app.add_route('/data', data)
-app.add_route('/accelerometer', accelerometer)
+app.add_route('/data/{earthquake_id}', data)

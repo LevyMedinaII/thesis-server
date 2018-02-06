@@ -21,8 +21,9 @@ from sklearn.preprocessing import StandardScaler
 scale = StandardScaler()
 
 dataset_paths = [
-    "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D005.csv",
-    "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D005_Test.csv"
+    "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D005_Test.csv",
+    "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D010.csv",
+    "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D005.csv"
 ]
 
 print("Creating dataframes...")
@@ -32,11 +33,11 @@ for path in dataset_paths:
 
 print("Generating Tensors...")
 # Generate Tensors
-train_data = dataframes[0][list(dataframes[0].columns.values)[4:7]]
-category_data = dataframes[0][list(dataframes[0].columns.values)[2:4]]
+train_data = dataframes[1][list(dataframes[1].columns.values)[7:]]
+category_data = dataframes[1][list(dataframes[1].columns.values)[2:4]]
 
-test_data = dataframes[1][list(dataframes[1].columns.values)[4:7]]
-category_test_data = dataframes[1][list(dataframes[1].columns.values)[2:4]]
+test_data = dataframes[0][list(dataframes[0].columns.values)[7:]]
+category_test_data = dataframes[0][list(dataframes[0].columns.values)[2:4]]
 
 print("Normalizing Tensor Data...")
 # Normalize Data
@@ -49,7 +50,7 @@ print("Normalizing Tensor Data...")
 print("Creating Neural Network Model...")
 #Creating Neural Network Model
 model = Sequential()
-model.add(Dense(3, activation='relu', input_shape=(3,)))
+model.add(Dense(111, activation='relu', input_shape=(111,)))
 model.add(Dense(2, activation='softmax'))
 
 print(model.summary())
@@ -73,27 +74,9 @@ print('Test loss:', score[0])
 print('Test accuracy:', score[1])
 
 class EarthquakePredictionResource(object):
-    def on_get(self, req, res):
-        df = pd.read_csv('NGA_D005.csv')
-        json_data = df.to_json(orient='records')
-        res.body = json.dumps(json_data)
-        
     def on_post(self, req, res):
-        # x-www-form-urlencoded
-        # requestBody = req.params
-        # earthquakeData = req.get_param_as_list('earthquake_data')
-
-        # raw/json
-        # requestBody  = json.load(req.stream)
-        # earthquakeData = requestBody.get('earthquake_data')
-        df = pd.read_csv('NGA_D005.csv')
-        json_data = df.to_json(orient='records')
-
-        # TODO: Analyze data with AI
-
-        responseData = {
-            'earthquake_data': json_data
-        }
-
-        res.body = json.dumps(responseData)
-        res.status = falcon.HTTP_200
+        if req.stream:
+            #Do something
+        else:
+            res.status = falcon.HTTP_400
+        
