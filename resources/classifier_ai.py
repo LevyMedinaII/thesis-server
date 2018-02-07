@@ -22,8 +22,7 @@ scale = StandardScaler()
 
 dataset_paths = [
     "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D005_Test.csv",
-    "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D010.csv",
-    "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D005.csv"
+    "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D010.csv"
 ]
 
 print("Creating dataframes...")
@@ -50,7 +49,11 @@ print("Normalizing Tensor Data...")
 print("Creating Neural Network Model...")
 #Creating Neural Network Model
 model = Sequential()
+
+print("Added Layer with 111 neurons")
 model.add(Dense(111, activation='relu', input_shape=(111,)))
+
+print("Added Layer with 2 neurons for activation")
 model.add(Dense(2, activation='softmax'))
 
 print(model.summary())
@@ -59,6 +62,7 @@ model.compile(loss='categorical_crossentropy',
               optimizer=RMSprop(),
               metrics=['accuracy'])
 
+# Training Neural Network Model
 print("Training model...")
 history = model.fit(tensor_train_data, category_data,
                         batch_size=20,
@@ -67,6 +71,8 @@ history = model.fit(tensor_train_data, category_data,
                         validation_data=(tensor_train_data, category_data))
 
 print("Done!")
+
+# Sample Model Test
 print("Testing model...")
 score = model.evaluate(tensor_test_data, tensor_category_test_data, verbose=0)
 print("Done!")
@@ -76,6 +82,13 @@ print('Test accuracy:', score[1])
 class EarthquakePredictionResource(object):
     def on_post(self, req, res):
         if req.stream:
+            data = json.load(req.stream)
+            data = data['earthquake_data']
+            prediction = model.predict(np.array(data))
+
+            print(prediction)
+            # TODO: Integrate Mobile Stream Sending
+            
             res.body = json.dumps({
                 "Hello": "World"
             })
