@@ -4,6 +4,7 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+
 [packages]
 
 falcon = "*"
@@ -16,6 +17,8 @@ tensorflow = "*"
 keras = "*"
 sklearn = "*"
 statsmodels = "*"
+falcon-cors = "*"
+
 
 [dev-packages]
 

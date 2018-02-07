@@ -1,9 +1,10 @@
 import json
 import falcon
+from falcon_cors import CORS
 import requests
 
 from resources import DataResource
-from db import SQLAlchemySessionManager, Session, Sample
+from db import SQLAlchemySessionManager, Session, Sample, Earthquakes
 
 class TestResource(object):
     def on_post(self, req, res):
@@ -24,6 +25,7 @@ class TestResource(object):
         # self.session.commit()
 
         # raw/json
+
         if req.stream:
             requestBody  = json.load(req.stream)
             latitude = requestBody.get('latitude')
@@ -36,10 +38,13 @@ class TestResource(object):
         else:
             res.status = falcon.HTTP_400
 
+# Allow CORS
+cors = CORS(allow_origins_list=['http://localhost:3000'])
 
 # falcon.API instances are callable WSGI apps
 app = falcon.API(middleware=[
     SQLAlchemySessionManager(Session),
+    cors.middleware,
 ])
 
 from resources import model
@@ -53,4 +58,4 @@ data = DataResource()
 
 # things will handle all requests to the '/things' URL path
 app.add_route('/test', test)
-app.add_route('/data/{earthquake_id}', data)
+app.add_route('/data', data)

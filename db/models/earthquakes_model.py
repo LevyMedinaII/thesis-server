@@ -4,16 +4,18 @@ from .declarative_base import Base
 class Earthquakes(Base):
     __tablename__ = 'triggered_earthquakes'
     id = Column(Integer, primary_key = True)
-
+    name = Column(String)
     lat = Column(String)
     long = Column(String)
     pga = Column(String)
     pgv = Column(String)
+    pgd = Column(String)
     magnitude = Column(String)
 
     def __repr__(self):
-        return "<Sample(id='{}', lat='{}', long='{}', pga='{}', pgv='{}', magnitude='{}')>".format(
+        return "<Sample(id='{}', name='{}', lat='{}', long='{}', pga='{}', pgv='{}', magnitude='{}')>".format(
             self.id,
+            self.name,
             self.lat,
             self.long,
             self.pga,

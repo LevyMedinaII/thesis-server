@@ -17,7 +17,7 @@
 # for index in range(0, len(y)):
 #     current_error =  abs(((mestimates[index] - y[index])/y[index])*100)
 #     errors.append(current_error)
-    
+
 # from numpy import array
 # average_error = array(errors).mean()
 

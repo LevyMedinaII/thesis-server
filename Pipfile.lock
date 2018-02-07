@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9a391ffba739d6fb7cbc7cbc179ccf96c50d3c481342d214d34793be74317d56"
+            "sha256": "d7b6348bc7416c8fc804c49ada4d50e9cf255374bd3a6b1d1027afef935c2b07"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -29,9 +29,9 @@
     "default": {
         "absl-py": {
             "hashes": [
-                "sha256:1c787e3bc7ef8fea7a8a79cf36b0c550b4bd66e13c05d1352fbc5786488befb0"
+                "sha256:908eba9a96a37c10f10074aba57d685070b814906b02a1ea2cf54bb10a6b8c74"
             ],
-            "version": "==0.1.9"
+            "version": "==0.1.10"
         },
         "bleach": {
             "hashes": [
@@ -61,12 +61,11 @@
             ],
             "version": "==1.4.1"
         },
-        "futures": {
+        "falcon-cors": {
             "hashes": [
-                "sha256:c4884a65654a7c45435063e14ae85280eb1f111d94e542396717ba9828c4337f",
-                "sha256:51ecb45f0add83c806c68e4b06106f90db260585b25ef2abfcda0bd95c0132fd"
+                "sha256:1788ec5c31b5a39240f7979a7c7170a33ea4952dc97e151858a82dcde1a9fe8a"
             ],
-            "version": "==3.1.1"
+            "version": "==1.1.7"
         },
         "gunicorn": {
             "hashes": [
@@ -366,10 +365,10 @@
         },
         "tensorflow-tensorboard": {
             "hashes": [
-                "sha256:663986f43e3283cd08f6feb8a2dede39fb2ca53d992b15b5c50858592a03f72f",
-                "sha256:4157520a6f72e40d50509e31231394f2fed4022400dd2763d1f2d0edc86b47cf"
+                "sha256:47f985cdcaeae697d978dcaca5441ff22533cbcc9ebc4f50b606e7485b931436",
+                "sha256:749845a950009cc2a95b9ba7cd915eff01b363e3e2a71d3eee056890f37ecdb3"
             ],
-            "version": "==1.5.0"
+            "version": "==1.5.1"
         },
         "urllib3": {
             "hashes": [
