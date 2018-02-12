@@ -23,3 +23,5 @@ class DataResource(object):
         res.body = json.dumps({
             "earthquake_data": res_data
         })
+    # def on_post(self, req, res):
+        
