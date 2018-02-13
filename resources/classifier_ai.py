@@ -52,11 +52,12 @@ print("Normalizing Tensor Data...")
 # Open model file
 json_file = open('model.json', 'r')
 
+#### CREATING A MODEL ####
 # print("Creating Neural Network Model...")
 # model = Sequential()
 
-# print("Added Layer with 111 neurons")
-# model.add(Dense(111, activation='relu', input_shape=(111,)))
+# print("Added Layer with 20 neurons")
+# model.add(Dense(20, activation='relu', input_shape=(20,)))
 
 # print("Added Layer with 1 neurons for activation")
 # model.add(Dense(1, activation='softmax'))
@@ -85,7 +86,9 @@ json_file = open('model.json', 'r')
 # # serialize weights to HDF5
 # model.save_weights("model.h5")
 # print("Saved model to disk")
+#########################
 
+#### LOADING A MODEL ####
 print('Loading model from file...')
 loaded_model_json = json_file.read()
 json_file.close()
@@ -95,6 +98,8 @@ model.load_weights("model.h5")
 print("Loaded model from disk")
 
 model.compile(loss='binary_crossentropy', optimizer=RMSprop(), metrics=['accuracy'])
+##############################
+
 
 # Sample Model Test
 print("Testing model...")

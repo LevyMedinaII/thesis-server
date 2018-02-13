@@ -2,8 +2,11 @@ import json
 import falcon
 import pandas as pd
 import requests
+import numpy as np
+import ast
 
 from db import Sample, Earthquakes
+from .classifier_ai import model
 
 class DataResource(object):
     def on_get(self, req, res):
@@ -30,13 +33,31 @@ class DataResource(object):
         B1 = -5.3746
         B2 = 9.6426
 
-        mest = (B1*float(pga)) + (B2*float(pgd)) + B0
-        
         if req.stream:
-            requestBody = json.load(req.stream)
+            data = json.load(req.stream)
 
-            route = '/'
-            test_data = requests.get(route)
+            waveform_data = ast.literal_eval(data['Displacement'][0])
+            pga = data['PGA']
+            pgv = data['PGV']
+            pgd = max(waveform_data)
+            
+            data_np = np.array([waveform_data])
+            prediction = model.predict(data_np)
+            prediction =int(prediction[0][0])
+
+            print('{}*{} + {}*{} + {}'.format(B1, pga, B2, pgd, B0))
+            mest = (B1*float(pga)) + (B2*float(pgd)) + B0
+
+            if prediction == 1:
+                # pingCountTotal += 1
+                # print('Ping Count:', pingCountTotal)
+                print('Prediction:', prediction)
+                print('Magnitude Est:', mest)
+            
+            res.body = json.dumps({
+                "prediction": prediction,
+                "magnitude": int(mest)
+            })
         else:
             res.status = falcon.HTTP_400
         
