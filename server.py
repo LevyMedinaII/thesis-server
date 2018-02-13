@@ -3,7 +3,7 @@ import falcon
 from falcon_cors import CORS
 import requests
 
-from resources import DataResource
+from resources import DataResource, EarthquakePredictionResource
 from db import SQLAlchemySessionManager, Session, Sample, Earthquakes
 
 # class TestResource(object):
@@ -57,9 +57,9 @@ from resources import model
 app.req_options.auto_parse_form_urlencoded = True
 
 # Resources are represented by long-lived class instances
-test = TestResource()
 data = DataResource()
+predict = EarthquakePredictionResource()
 
-# things will handle all requests to the '/things' URL path
-app.add_route('/test', test)
+# routes
 app.add_route('/data', data)
+app.add_route('/predict', predict)

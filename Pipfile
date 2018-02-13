@@ -18,6 +18,8 @@ keras = "*"
 sklearn = "*"
 statsmodels = "*"
 falcon-cors = "*"
+theano = "*"
+"h5py" = "*"
 
 
 [dev-packages]

@@ -1,12 +1,15 @@
 import json
 import falcon
+import os
 
 #Setup
+os.environ['KERAS_BACKEND'] = 'theano'
+
 import keras
-from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 from keras.optimizers import RMSprop
+from keras.models import model_from_json
 
 print("Starting AI...")
 ### AI ###
@@ -33,10 +36,10 @@ for path in dataset_paths:
 print("Generating Tensors...")
 # Generate Tensors
 train_data = dataframes[1][list(dataframes[1].columns.values)[7:]]
-category_data = dataframes[1][list(dataframes[1].columns.values)[2:4]]
+category_data = dataframes[1][list(dataframes[1].columns.values)[3:4]]
 
 test_data = dataframes[0][list(dataframes[0].columns.values)[7:]]
-category_test_data = dataframes[0][list(dataframes[0].columns.values)[2:4]]
+category_test_data = dataframes[0][list(dataframes[0].columns.values)[3:4]]
 
 print("Normalizing Tensor Data...")
 # Normalize Data
@@ -46,35 +49,56 @@ print("Normalizing Tensor Data...")
 (tensor_test_data) = scale.fit_transform(test_data.values)
 (tensor_category_test_data) = category_test_data.values
 
-print("Creating Neural Network Model...")
-#Creating Neural Network Model
-model = Sequential()
+# Open model file
+json_file = open('model.json', 'r')
 
-print("Added Layer with 111 neurons")
-model.add(Dense(111, activation='relu', input_shape=(111,)))
+# print("Creating Neural Network Model...")
+# model = Sequential()
 
-print("Added Layer with 2 neurons for activation")
-model.add(Dense(2, activation='softmax'))
+# print("Added Layer with 111 neurons")
+# model.add(Dense(111, activation='relu', input_shape=(111,)))
 
-print(model.summary())
+# print("Added Layer with 1 neurons for activation")
+# model.add(Dense(1, activation='softmax'))
 
-model.compile(loss='categorical_crossentropy',
-              optimizer=RMSprop(),
-              metrics=['accuracy'])
+# print(model.summary())
 
-# Training Neural Network Model
-print("Training model...")
-history = model.fit(tensor_train_data, category_data,
-                        batch_size=20,
-                        epochs=10,
-                        verbose=2,
-                        validation_data=(tensor_train_data, category_data))
+# model.compile(loss='binary_crossentropy',
+#             optimizer=RMSprop(),
+#             metrics=['accuracy'])
 
-print("Done!")
+# # Training Neural Network Model
+# print("Training model...")
+# history = model.fit(tensor_train_data, category_data,
+#                         batch_size=20,
+#                         epochs=10,
+#                         verbose=1,
+#                         validation_data=(tensor_train_data, category_data))
+
+# print("Done!")  
+
+# print("Saving model...")
+# # Saving model
+# model_json = model.to_json()
+# with open("model.json", "w") as json_file:
+#     json_file.write(model_json)
+# # serialize weights to HDF5
+# model.save_weights("model.h5")
+# print("Saved model to disk")
+
+print('Loading model from file...')
+loaded_model_json = json_file.read()
+json_file.close()
+model = model_from_json(loaded_model_json)
+model.load_weights("model.h5")
+
+print("Loaded model from disk")
+
+model.compile(loss='binary_crossentropy', optimizer=RMSprop(), metrics=['accuracy'])
 
 # Sample Model Test
 print("Testing model...")
-score = model.evaluate(tensor_test_data, tensor_category_test_data, verbose=0)
+score = model.evaluate(tensor_test_data, tensor_category_test_data, verbose=1)
 print("Done!")
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
@@ -84,13 +108,15 @@ class EarthquakePredictionResource(object):
         if req.stream:
             data = json.load(req.stream)
             data = data['earthquake_data']
-            prediction = model.predict(np.array(data))
 
-            print(prediction)
+            data_np = np.array([data])
+            prediction = model.predict(data_np)
+
+            print(prediction[0][0])
             # TODO: Integrate Mobile Stream Sending
             
             res.body = json.dumps({
-                "Hello": "World"
+                "prediction": int(prediction[0][0])
             })
         else:
             res.status = falcon.HTTP_400
