@@ -15,7 +15,7 @@ if not db_url:
         'username': 'shakedev',
         'password': 'password',
         'host': 'localhost',
-        'port': '5433',
+        'port': '5432',
         'db_name': 'shake_db'
     }
     engine = create_engine(

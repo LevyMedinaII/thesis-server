@@ -20,6 +20,8 @@ statsmodels = "*"
 falcon-cors = "*"
 theano = "*"
 "h5py" = "*"
+"psycopg2-binary" = "*"
+patsy = "*"
 
 
 [dev-packages]

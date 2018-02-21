@@ -24,8 +24,8 @@ from sklearn.preprocessing import StandardScaler
 scale = StandardScaler()
 
 dataset_paths = [
-    "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D005_Test.csv",
-    "c:/Users/Levy/Documents/python_projs/shake-server/NGA_D010.csv"
+    "NGA_D005_Test.csv",
+    "NGA_D010.csv"
 ]
 
 print("Creating dataframes...")
