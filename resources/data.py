@@ -8,13 +8,15 @@ import ast
 from db import Sample, Earthquakes
 from .classifier_ai import model
 
+import csv
+
 class DataResource(object):
+    pingCountTOtal = 0
     def on_get(self, req, res):
         data = self.session.query(Earthquakes).all()
         
-        res_data = []
-        for entry in data:
-            res_data.append({
+        res_data = [
+            {
                 'name': entry.name,
                 'lat': entry.lat,
                 'long': entry.long,
@@ -22,7 +24,8 @@ class DataResource(object):
                 'pgv': entry.pgv,
                 'pgd': entry.pgd,
                 'magnitude': entry.magnitude
-            })
+            } for entry in data
+        ]
 
         res.body = json.dumps({
             "earthquake_data": res_data
@@ -46,13 +49,22 @@ class DataResource(object):
             prediction =int(prediction[0][0])
 
             print('{}*{} + {}*{} + {}'.format(B1, pga, B2, pgd, B0))
-            mest = (B1*float(pga)) + (B2*float(pgd)) + B0
+            mest = abs((B1*float(pga)) + (B2*float(pgd)) + B0)
 
-            if prediction == 1:
-                # pingCountTotal += 1
-                # print('Ping Count:', pingCountTotal)
-                print('Prediction:', prediction)
-                print('Magnitude Est:', mest)
+            if len(waveform_data) > 0:
+                with open('Not_Earthquakes.csv', 'a') as csvfile:
+                    writer = csv.writer(csvfile)
+                    writer.writerow(waveform_data)
+
+            # if prediction != 1:
+            #     with open('Not_Earthquakes.csv', 'a') as csvfile:
+            #         writer = csv.writer(csvfile, delimiter=',')
+            #         writer.writerow(waveform_data)
+            # else:
+            #     pingCountTotal += 1
+            #     print('Ping Count:', pingCountTotal)
+            #     print('Prediction:', prediction)
+            #     print('Magnitude Est:', mest)
             
             res.body = json.dumps({
                 "prediction": prediction,
