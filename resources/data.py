@@ -37,7 +37,7 @@ class DataResource(object):
         B2 = 9.6426
 
         if req.stream:
-            data = json.load(req.stream)
+            data = json.load(req.stream.read().decode('utf8').replace("'", '"'))
 
             waveform_data = ast.literal_eval(data['Displacement'][0])
             pga = data['PGA']

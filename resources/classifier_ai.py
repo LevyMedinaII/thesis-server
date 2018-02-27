@@ -60,7 +60,7 @@ json_file = open('model.json', 'r')
 # model.add(Dense(20, activation='relu', input_shape=(20,)))
 
 # print("Added Layer with 1 neurons for activation")
-# model.add(Dense(1, activation='softmax'))
+# model.add(Dense(1, activation='softmax')) #change to sigmoid
 
 # print(model.summary())
 
@@ -111,7 +111,7 @@ print('Test accuracy:', score[1])
 class EarthquakePredictionResource(object):
     def on_post(self, req, res):
         if req.stream:
-            data = json.load(req.stream)
+            data = json.loads(req.stream.read().decode('utf8').replace("'", '"'))
             data = data['earthquake_data']
 
             data_np = np.array([data])
