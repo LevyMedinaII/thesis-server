@@ -36,14 +36,17 @@ for path in dataset_paths:
 
 print("Generating Tensors...")
 # Generate Tensors
-train_data = dataframes[1][list(dataframes[1].columns.values)[7:]]
-train_data_not_equakes = dataframes[2][list(dataframes[2].columns.values)[8:]]
+print("Creating 15000 training datasets from file...")
+train_data = dataframes[1][list(dataframes[1].columns.values)[7:]][0:14999]
+category_data = dataframes[1][list(dataframes[1].columns.values)[3:4]][0:14999]
 
-category_data = dataframes[1][list(dataframes[1].columns.values)[3:4]]
+print("Creating Not earthquake training datasets from file...")
+train_data_not_equakes = dataframes[2][list(dataframes[2].columns.values)[8:]]
 category_data_not_equakes = dataframes[2][list(dataframes[2].columns.values)[3:4]]
 
-test_data = dataframes[0][list(dataframes[0].columns.values)[7:]]
-category_test_data = dataframes[0][list(dataframes[0].columns.values)[3:4]]
+print("Creating datasets from remaining in training dataset file...")
+test_data = dataframes[1][list(dataframes[1].columns.values)[7:]][14999:]
+category_test_data = dataframes[1][list(dataframes[1].columns.values)[3:4]][14999:]
 
 print("Normalizing Tensor Data...")
 # Normalize Data
