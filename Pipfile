@@ -22,6 +22,7 @@ theano = "*"
 "h5py" = "*"
 "psycopg2-binary" = "*"
 patsy = "*"
+pylint = "*"
 
 
 [dev-packages]

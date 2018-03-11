@@ -11,7 +11,6 @@ from .classifier_ai import model
 import csv
 
 class DataResource(object):
-    pingCountTOtal = 0
     def on_get(self, req, res):
         data = self.session.query(Earthquakes).all()
         
@@ -51,20 +50,8 @@ class DataResource(object):
             print('{}*{} + {}*{} + {}'.format(B1, pga, B2, pgd, B0))
             mest = abs((B1*float(pga)) + (B2*float(pgd)) + B0)
 
-            if len(waveform_data) > 0:
-                with open('Not_Earthquakes.csv', 'a') as csvfile:
-                    writer = csv.writer(csvfile)
-                    writer.writerow(waveform_data)
-
-            # if prediction != 1:
-            #     with open('Not_Earthquakes.csv', 'a') as csvfile:
-            #         writer = csv.writer(csvfile, delimiter=',')
-            #         writer.writerow(waveform_data)
-            # else:
-            #     pingCountTotal += 1
-            #     print('Ping Count:', pingCountTotal)
-            #     print('Prediction:', prediction)
-            #     print('Magnitude Est:', mest)
+            print('Prediction:', prediction)
+            print('Magnitude Est:', mest)
             
             res.body = json.dumps({
                 "prediction": prediction,
