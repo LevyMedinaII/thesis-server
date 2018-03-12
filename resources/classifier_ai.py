@@ -37,16 +37,16 @@ for path in dataset_paths:
 print("Generating Tensors...")
 # Generate Tensors
 print("Creating 15000 training datasets from file...")
-train_data = dataframes[1][list(dataframes[1].columns.values)[7:]][0:14999]
-category_data = dataframes[1][list(dataframes[1].columns.values)[3:4]][0:14999]
+train_data = dataframes[1][list(dataframes[1].columns.values)[7:]][0:15000]
+category_data = dataframes[1][list(dataframes[1].columns.values)[3:4]][0:15000]
 
 print("Creating Not earthquake training datasets from file...")
 train_data_not_equakes = dataframes[2][list(dataframes[2].columns.values)[8:]]
-category_data_not_equakes = dataframes[2][list(dataframes[2].columns.values)[3:4]]
+category_data_not_equakes = dataframes[2][list(dataframes[2].columns.values)[4:5]]
 
 print("Creating datasets from remaining in training dataset file...")
-test_data = dataframes[1][list(dataframes[1].columns.values)[7:]][14999:]
-category_test_data = dataframes[1][list(dataframes[1].columns.values)[3:4]][14999:]
+test_data = dataframes[1][list(dataframes[1].columns.values)[7:]][15000:]
+category_test_data = dataframes[1][list(dataframes[1].columns.values)[3:4]][15000:]
 
 print("Normalizing Tensor Data...")
 # Normalize Data
@@ -70,7 +70,7 @@ json_file = open('model.json', 'r')
 # model.add(Dense(19, activation='relu', input_shape=(19,)))
 
 # print("Added Layer with 1 neurons for activation")
-# model.add(Dense(1, activation='softmax')) #change to sigmoid
+# model.add(Dense(1, activation='sigmoid')) #change to sigmoid
 
 # print(model.summary())
 
