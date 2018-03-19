@@ -16,7 +16,6 @@ class DataResource(object):
         
         res_data = [
             {
-                'name': entry.name,
                 'lat': entry.lat,
                 'long': entry.long,
                 'pga': entry.pga,

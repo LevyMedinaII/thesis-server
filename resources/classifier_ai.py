@@ -7,7 +7,8 @@ os.environ['KERAS_BACKEND'] = 'theano'
 
 import keras
 from keras.models import Sequential
-from keras.layers import Dense, Dropout
+from keras.layers import Dense, Dropout, Activation
+from keras.optimizers import SGD
 from keras.optimizers import RMSprop
 from keras.models import model_from_json
 
@@ -36,25 +37,32 @@ for path in dataset_paths:
 
 print("Generating Tensors...")
 # Generate Tensors
-print("Creating 15000 training datasets from file...")
-train_data = dataframes[1][list(dataframes[1].columns.values)[7:]][0:15000]
-category_data = dataframes[1][list(dataframes[1].columns.values)[3:4]][0:15000]
+print("Creating 30000 training datasets from file...")
+train_data = dataframes[1][list(dataframes[1].columns.values)[7:]][0:]
+category_data = dataframes[1][list(dataframes[1].columns.values)[2:4]][0:]
 
 print("Creating Not earthquake training datasets from file...")
-train_data_not_equakes = dataframes[2][list(dataframes[2].columns.values)[8:]]
-category_data_not_equakes = dataframes[2][list(dataframes[2].columns.values)[4:5]]
+train_data_not_equakes = dataframes[2][list(dataframes[2].columns.values)[8:]][0:]
+category_data_not_equakes = dataframes[2][list(dataframes[2].columns.values)[3:5]][0:]
 
 print("Creating datasets from remaining in training dataset file...")
 test_data = dataframes[1][list(dataframes[1].columns.values)[7:]][15000:]
-category_test_data = dataframes[1][list(dataframes[1].columns.values)[3:4]][15000:]
+category_test_data = dataframes[1][list(dataframes[1].columns.values)[2:4]][15000:]
+
+print("Creating datasets from not earthquakes...")
+test_not_equake_data = dataframes[2][list(dataframes[2].columns.values)[8:]][500:20000]
+category_test_not_equake_data = dataframes[2][list(dataframes[2].columns.values)[3:5]][500:20000]
+
+train_data = train_data.append(train_data_not_equakes)
+category_data = category_data.append(category_data_not_equakes)
+
+test_data = test_data.append(test_not_equake_data)
+category_test_data = category_test_data.append(category_test_not_equake_data)
 
 print("Normalizing Tensor Data...")
 # Normalize Data
 (tensor_train_data) = scale.fit_transform(train_data.values)
 (tensor_category_data) = category_data.values
-
-(tensor_train_not_equakes_data) = scale.fit_transform(train_data_not_equakes.values)
-(tensor_category_not_equakes_data) = category_data_not_equakes.values
 
 (tensor_test_data) = scale.fit_transform(test_data.values)
 (tensor_category_test_data) = category_test_data.values
@@ -68,29 +76,30 @@ json_file = open('model.json', 'r')
 
 # print("Added Layer with 19 neurons")
 # model.add(Dense(19, activation='relu', input_shape=(19,)))
+# model.add(Dropout(0.5))
+
+# print("Added Hidden Layer with 19 neurons")
+# model.add(Dense(5, activation='relu'))
+# model.add(Dropout(0.5))
 
 # print("Added Layer with 1 neurons for activation")
-# model.add(Dense(1, activation='sigmoid')) #change to sigmoid
+# model.add(Dense(2,  activation='softmax')) #change to sigmoid
+
+# sgd = SGD(lr=0.03,  decay=1e-6, momentum=0.8, nesterov=True)
 
 # print(model.summary())
 
-# model.compile(loss='binary_crossentropy',
-#             optimizer=RMSprop(),
+# model.compile(loss='categorical_crossentropy',
+#             optimizer=sgd,
 #             metrics=['accuracy'])
 
 # # Training Neural Network Model
 # print("Training model...")
 # history = model.fit(tensor_train_data, category_data,
-#                         batch_size=19,
-#                         epochs=10,
-#                         verbose=1,
+#                         batch_size=38,
+#                         epochs=20,
+#                         verbose=1, 
 #                         validation_data=(tensor_train_data, tensor_category_data))
-
-# history = model.fit(tensor_train_data, category_data,
-#                         batch_size=19,
-#                         epochs=10,
-#                         verbose=1,
-#                         validation_data=(tensor_train_not_equakes_data, tensor_category_not_equakes_data))
 
 # print("Done!")  
 
@@ -114,13 +123,13 @@ model.load_weights("model.h5")
 
 print("Loaded model from disk")
 
-model.compile(loss='binary_crossentropy', optimizer=RMSprop(), metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer=RMSprop(), metrics=['accuracy'])
 ##############################
 
 
 # Sample Model Test
 print("Testing model...")
-score = model.evaluate(tensor_test_data, tensor_category_test_data, verbose=1)
+score = model.evaluate(tensor_test_data, tensor_category_test_data, batch_size=38, verbose=1)
 print("Done!")
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])

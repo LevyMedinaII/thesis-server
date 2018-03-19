@@ -23,6 +23,7 @@ theano = "*"
 "psycopg2-binary" = "*"
 patsy = "*"
 pylint = "*"
+waitress = "*"
 
 
 [dev-packages]
